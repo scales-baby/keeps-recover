@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; img-src 'none'; form-action 'none'; base-uri 'none'; frame-ancestors 'none'">
+<meta name="referrer" content="no-referrer">
+<title>Keeps recovery</title>
+<!-- Static page: no forms, no inputs, no scripts, no wallet connect, no links to reveal screens.
+     Checked by scripts/check-page.js. -->
+<style>
+  :root { --bg: #fbfaf7; --fg: #1d1d1b; --muted: #5b5b57; --line: #dedbd2; --warn-bg: #fff3d6; --warn-line: #e0b84a; }
+  @media (prefers-color-scheme: dark) { :root { --bg: #151514; --fg: #ecebe6; --muted: #a8a69e; --line: #34332f; --warn-bg: #2d2615; --warn-line: #8c6d1f; } }
+  body { margin: 0; background: var(--bg); color: var(--fg); font: 17px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; }
+  main { max-width: 680px; margin: 0 auto; padding: 32px 16px 64px; }
+  h1 { font-size: 28px; margin: 0 0 16px; }
+  h2 { font-size: 19px; margin: 32px 0 8px; }
+  .warn { background: var(--warn-bg); border: 1px solid var(--warn-line); border-radius: 10px; padding: 14px 16px; }
+  .warn p { margin: 4px 0; }
+  ol li { margin: 6px 0; }
+  code { font: 14px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace; overflow-wrap: anywhere; }
+  .hash { border-collapse: collapse; width: 100%; font-size: 15px; }
+  .hash th, .hash td { border: 1px solid var(--line); padding: 6px 8px; text-align: left; vertical-align: top; }
+  .muted { color: var(--muted); font-size: 15px; }
+</style>
+</head>
+<body>
+<main>
+<h1>Keeps recovery</h1>
+
+<div class="warn">
+<p><strong>We never ask for your words.</strong> Not Keeps, not support, not this page, not any website.</p>
+<p><strong>Only type your words into the Keeps app or the offline recovery tool. Never into a website.</strong></p>
+<p>This page has nothing to type into, and never will. If a page that looks like this one asks for your words, a key, or to connect a wallet, it is fake. Close it.</p>
+</div>
+
+<h2>What you need</h2>
+<ul>
+<li>Your printed Keeps recovery kit.</li>
+<li>Your six recovery words.</li>
+<li>A computer you trust, with Wi-Fi turned off while you open Key C.</li>
+</ul>
+
+<h2>How to move your money without Keeps</h2>
+<p>Your Keep is a Squads multisig: any two of its three keys can move the money. You hold two of them.</p>
+<ol>
+<li><strong>Get Key C</strong> on your own computer, offline: download <code>keeps-recover.js</code> from the GitHub release below, check its hash, turn Wi-Fi off, run it with the sealed copy from your kit, and type your six words into it. It prints Key C's address: check it matches the "Key C" line on your kit. Or use the Keeps app, if you still have it.</li>
+<li><strong>Get Key A</strong> from the Keeps app on your phone (the steps are printed on your kit).</li>
+<li><strong>Load the two keys</strong> into a Solana wallet, or keep them as keypair files.</li>
+<li><strong>Open a Squads tool</strong>: the Squads public UI or the Squads CLI, both from Squads' own GitHub. Enter the Multisig address from your kit.</li>
+<li><strong>Transfer from Vault 0</strong> to where you want the money: create the transfer, approve with Key A, approve with Key C, execute. Repeat per token.</li>
+<li><strong>Optional:</strong> replace Key B (Keeps' key) with a key you hold, so the Keep is fully yours.</li>
+</ol>
+<p class="muted">Your words are needed for step 1 only, typed into the offline tool on your own computer. No later step asks for them.</p>
+
+<h2>The offline tool and its hash</h2>
+<p>Download it only from the GitHub release: <code>github.com/scales-baby/keeps-recover/releases</code>. Before you run it, check that the file's SHA-256 matches the row for its version below, the release page, and the hash printed on your kit. Older versions stay listed and stay downloadable, so an older kit still matches its own version.</p>
+<table class="hash" id="releases">
+<thead><tr><th>Version</th><th>SHA-256 of keeps-recover.js</th><th>Released</th></tr></thead>
+<tbody>
+<tr data-version="1.0.0"><td>1.0.0</td><td><code>53b450e4296b730165e92461430e1c7e1f5101c562cfdf17567aed619522a8d4</code></td><td>2026-11-03</td></tr>
+</tbody>
+</table>
+<p class="muted">macOS: <code>shasum -a 256 keeps-recover.js</code> · Linux: <code>sha256sum keeps-recover.js</code> · Windows: <code>Get-FileHash keeps-recover.js</code> (it prints capitals; case does not matter). If it does not match, do not run it.</p>
+<p class="muted">The tool is never offered as a web page. Anything that runs in a browser and asks for your words is not ours.</p>
+</main>
+</body>
+</html>

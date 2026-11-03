@@ -1,0 +1,52 @@
+[
+  {
+    "blobBase64" : "S0NSTgIBEQgAAAABAAAAEHfe8RgNus+WSgnzw+06pGTHWPKnDAGjst8So2FnCpCu1QTOSieeY9iT/wKuqu1X+pRIRBBgnCDdnd9+uiEeKfDHS5+lV4+VLEax4Nk=",
+    "log2N" : 17,
+    "name" : "v2-prod-six-words",
+    "note" : "production cost (2^17/8/1), six-word canonical phrase",
+    "passphraseTyped" : "ranch unshaken trombone cramp acetone banister",
+    "publicKeyHex" : "4d0ec3a0d03fefff93a9bcce2a24b406d46f44aeff1f7787daedb13caafa402c",
+    "seedHex" : "00070e151c232a31383f464d545b626970777e858c939aa1a8afb6bdc4cbd2d9",
+    "version" : 2
+  },
+  {
+    "blobBase64" : "S0NSTgIBCggAAAABAAAAEDgDRGhozLHCWK6sI4xBQVKYkF2mqFUQgLVCsT93Z5akb5GcavsRhihS2r/g+2LxHNd7jzIFbvcHfk6n9IITmVl5rz6v1yk0VdbVoco=",
+    "log2N" : 10,
+    "name" : "v2-low-cost",
+    "note" : "low cost round trip",
+    "passphraseTyped" : "correct battery staple river",
+    "publicKeyHex" : "4d0ec3a0d03fefff93a9bcce2a24b406d46f44aeff1f7787daedb13caafa402c",
+    "seedHex" : "00070e151c232a31383f464d545b626970777e858c939aa1a8afb6bdc4cbd2d9",
+    "version" : 2
+  },
+  {
+    "blobBase64" : "S0NSTgIBCwgAAAABAAAAEO8BK1b3puMaoqXTE3Ziq3uez/AE0zJc6AlkiOl7jHZv7ppU9mGdSj9sfljZX6p8drMCqGSekOEZ3vuZm/Tpe7l7Uio+jlNbj+GKrSk=",
+    "log2N" : 11,
+    "name" : "v2-freeform-verbatim",
+    "note" : "free-form passphrase, used verbatim",
+    "passphraseTyped" : "kT9#vLq2$wXz8p",
+    "publicKeyHex" : "03a107bff3ce10be1d70dd18e74bc09967e4d6309ba50d5f1ddc8664125531b8",
+    "seedHex" : "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f",
+    "version" : 2
+  },
+  {
+    "blobBase64" : "S0NSTgIBCggAAAABAAAAEEYiMH2wJF+5NqnYtTLWAdG9UjUFZgE/T9DYip73kxxl7D2J34YBSa3hTTz0+AKsQaJXdi/xKSqWzYBlowm7Xpa0nS0682wqY3/oTNw=",
+    "log2N" : 10,
+    "name" : "v2-nfc",
+    "note" : "NFD-typed passphrase; seal NFC-normalises",
+    "passphraseTyped" : "café crème brûlée river",
+    "publicKeyHex" : "481ede772da15785c9e59a086201b8c3f9c307129e3fc6d7f34aa4dfed5814e5",
+    "seedHex" : "030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122",
+    "version" : 2
+  },
+  {
+    "blobBase64" : "S0NSTgEBCggAAAABAAAAEKurq6urq6urq6urq6urq6ubTrFeMivaSs4BqYp9N8e8oYAUVxAPKZTZqtUJJuG5CUgAFuHgdEdVtjnZ3XOjG8qwNuRNuQBIyntRVxU=",
+    "log2N" : 10,
+    "name" : "v1-legacy",
+    "note" : "legacy v1 blob (no AAD)",
+    "passphraseTyped" : "an old sealed cairn phrase",
+    "publicKeyHex" : "9a3360596bc21712c03345a9d4e9f184c0920619ecd4795b063d4f0987cf863f",
+    "seedHex" : "000306090c0f1215181b1e2124272a2d303336393c3f4245484b4e5154575a5d",
+    "version" : 1
+  }
+]

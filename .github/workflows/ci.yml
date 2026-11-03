@@ -1,0 +1,36 @@
+name: ci
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        node: ['20', '22', '24']
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: ${{ matrix.node }}
+      - name: tests
+        run: node --test test/keeps-recover.test.js
+      - name: page static check (page hash == SHA256SUMS)
+        run: node scripts/check-page.js
+  reproducible:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: build twice, compare, and match the committed SHA256SUMS
+        run: |
+          sh scripts/build.sh --check
+          cp dist/SHA256SUMS /tmp/first
+          sh scripts/build.sh --check
+          cmp /tmp/first dist/SHA256SUMS
