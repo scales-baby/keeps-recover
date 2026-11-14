@@ -61,13 +61,15 @@ Options: `--out PATH` (default `key-c.json`), `--base58-out PATH` (the 64-byte s
 Your Keep is a Squads v4 multisig, 2 of 3: Key A (your phone), Key B (the Keeps service key), Key C (your recovery key). Any two keys can move the money. These steps match the six exit steps on your kit.
 
 1. **Key C:** this tool (above), or Keeps app > Settings > Advanced > Reveal recovery key.
-2. **Key A:** Keeps app > Settings > Advanced > Reveal phone key. The two reveals are 24 hours apart on purpose. Revealing Key A normally needs your Keeps sign-in. **If Keeps' sign-in has stopped, it takes at least 10 days from your first try:**
-   - Open Reveal phone key as soon as sign-in fails. The 7 days count from that first try on this phone, not from when Keeps stopped.
+2. **Key A:** Keeps app > Settings > Advanced > Reveal phone key. If you revealed Key C in the app, Key A can be revealed 24 hours later, on purpose. Revealing Key A normally needs your Keeps sign-in. **If Keeps' sign-in has stopped, it takes at least 10 days from your first try:**
+   - Open Reveal phone key and continue until the app says "Keeps sign-in isn't answering". That is your first try. The 7 days count from that first try on this phone, not from when Keeps stopped.
    - Keep the phone switched on. Time with it switched off does not count. If Keeps' sign-in answers again, the count starts over.
+   - Open Keeps once a day while you wait. If the phone restarts, the time since you last opened Keeps is not counted.
    - After 7 days, open Reveal phone key again and type your six words in the app.
+   - When you type the words, the app checks your Keep on Solana. If it cannot reach the network, it asks for an RPC address: paste an https address from any Solana RPC provider. This needs Keeps build 370 or later; on builds 366 to 369 the exit can stop at this check.
    - The app then waits 72 hours more before it shows Key A. Reveal it within the 72 hours after that, or the wait lapses.
    - Freezing your Keep cancels the wait.
-   - A Ledger or "other wallet" recovery key is not affected: its reveal needs only your phone.
+   - A Ledger or "other wallet" recovery key: sign out of Keeps first (Settings). The reveal then needs only your phone.
 3. **Load the keys.** For the Squads CLI keep them as keypair files (`key-c.json`, and Key A saved the same way). For a wallet, import each with `--base58-out` / the app's export into Phantom, Solflare or Backpack. Importing into a wallet puts the key on an online device: do it only when you are ready to move the money.
 4. **Open a Squads tool** with the Multisig address from your kit. The program is `SQDS4ep65T869zMMBKyuUq6aD6EgTu8psMjkvj52pCf`.
    - The Squads public UI: <https://github.com/Squads-Protocol/squads-v4-public-ui> (run it yourself; connect the wallet holding Key A, then the one holding Key C).
@@ -88,7 +90,7 @@ Your Keep is a Squads v4 multisig, 2 of 3: Key A (your phone), Key B (the Keeps 
 
    Then the same four commands with `--action "RemoveMember <Key B from kit>"`. Keep the threshold at 2.
 
-These later steps are online by nature (they send transactions). Do them after `keeps-recover` has finished, and only with the keypair files, never with the words. The words are needed for one thing only: step 1, offline.
+These later steps are online by nature (they send transactions). Do them after `keeps-recover` has finished, and only with the keypair files, never with the words. The words are needed for step 1, offline, or for the Keeps app in step 2 if Keeps' sign-in has stopped.
 
 ## The sealed copy format
 
