@@ -320,32 +320,25 @@ test('page check: the page passes the static check, and the check catches inputs
 });
 
 // ---------------------------------------------------------------- audit 2026-11 (SRV-10)
-test('SRV-10: backspace removes a whole character (é, backspace, e gives e)', () => {
-  const buf = Buffer.alloc(16);
-  let n = 0;
-  const type = (s) => { for (const b of Buffer.from(s, 'utf8')) buf[n++] = b; };
-  type('é');
-  assert.equal(n, 2);
-  n = R.eraseLastChar(buf, n);
-  type('e');
-  assert.equal(buf.subarray(0, n).toString('utf8'), 'e');
-  assert.ok(buf.subarray(n).every((b) => b === 0), 'erased bytes are zeroed');
-  for (const ch of ['a', 'é', '€', '😀']) {
-    const b = Buffer.alloc(8);
-    const bytes = Buffer.from('x' + ch, 'utf8');
-    bytes.copy(b);
-    assert.equal(R.eraseLastChar(b, bytes.length), 1, `one backspace removes ${ch}`);
-  }
-  assert.equal(R.eraseLastChar(Buffer.alloc(4), 0), 0, 'backspace on an empty line stays empty');
-});
-
-test('SRV-10: the README and the page name the real wait for Key A', () => {
+test('SRV-10: the README and the page describe the Key A wait as the 369 app runs it', () => {
   const readme = fs.readFileSync(path.join(ROOT, 'README.md'), 'utf8');
   const page = fs.readFileSync(path.join(ROOT, 'site', 'recover.html'), 'utf8');
   for (const doc of [readme, page]) {
-    assert.match(doc, /about 10 days/);
-    assert.match(doc, /down for 7 days/);
-    assert.match(doc, /72 hours/);
+    assert.match(doc, /it takes at least 10 days from your first try/);
+    assert.match(doc, /Open Reveal phone key as soon as sign-in fails/);
+    assert.match(doc, /[Tt]he 7 days count from that first try on this phone, not from when Keeps stopped/);
+    assert.match(doc, /[Tt]ime with it switched off does not count/);
+    assert.match(doc, /After 7 days, open Reveal phone key again and type your six words in the app/);
+    assert.match(doc, /waits 72 hours more before it shows Key A/);
+    assert.ok(!/has been down for 7 days/.test(doc), 'the old wording (7 days from when Keeps went down) is gone');
   }
   assert.ok(!/No later step asks for them/.test(page), 'the page no longer says only step 1 needs the words');
+});
+
+test('SRV-10 review K-2/K-3: printed kits keep matching; the 1.0.0 row and hash stay', () => {
+  const H100 = '53b450e4296b730165e92461430e1c7e1f5101c562cfdf17567aed619522a8d4';
+  const page = fs.readFileSync(path.join(ROOT, 'site', 'recover.html'), 'utf8');
+  assert.ok(page.includes(`<tr data-version="1.0.0"><td>1.0.0</td><td><code>${H100}</code></td><td>2026-11-03</td></tr>`),
+    'the 1.0.0 row that 366 to 369 kits name is unchanged');
+  assert.ok(!/not yet released/.test(page), 'no unreleased version is listed on the page');
 });

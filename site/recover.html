@@ -45,7 +45,7 @@
 <p>Your Keep is a Squads multisig: any two of its three keys can move the money. You hold two of them.</p>
 <ol>
 <li><strong>Get Key C</strong> on your own computer, offline: download <code>keeps-recover.js</code> from the GitHub release below, check its hash, turn Wi-Fi off, run it with the sealed copy from your kit, and type your six words into it. It prints Key C's address: check it matches the "Key C" line on your kit. Or use the Keeps app, if you still have it.</li>
-<li><strong>Get Key A</strong> from the Keeps app on your phone (the steps are printed on your kit). It is shown 24 hours after Key C, on purpose. If Keeps' sign-in has stopped, plan on about 10 days: the app waits until the sign-in has been down for 7 days, then asks for your six words in the app, then waits 72 hours more before it shows Key A.</li>
+<li><strong>Get Key A</strong> from the Keeps app on your phone (the steps are printed on your kit). It is shown 24 hours after Key C, on purpose. If Keeps' sign-in has stopped, it takes at least 10 days from your first try. Open Reveal phone key as soon as sign-in fails: the 7 days count from that first try on this phone, not from when Keeps stopped. Keep the phone switched on; time with it switched off does not count. After 7 days, open Reveal phone key again and type your six words in the app. The app then waits 72 hours more before it shows Key A.</li>
 <li><strong>Load the two keys</strong> into a Solana wallet, or keep them as keypair files.</li>
 <li><strong>Open a Squads tool</strong>: the Squads public UI or the Squads CLI, both from Squads' own GitHub. Enter the Multisig address from your kit.</li>
 <li><strong>Transfer from Vault 0</strong> to where you want the money: create the transfer, approve with Key A, approve with Key C, execute. Repeat per token.</li>
@@ -58,7 +58,6 @@
 <table class="hash" id="releases">
 <thead><tr><th>Version</th><th>SHA-256 of keeps-recover.js</th><th>Released</th></tr></thead>
 <tbody>
-<tr data-version="1.0.1"><td>1.0.1</td><td><code>abbf49a0fa70dc0b6e719b4148b43e4a00451098218850fcf81a9765299ee98b</code></td><td>not yet released</td></tr>
 <tr data-version="1.0.0"><td>1.0.0</td><td><code>53b450e4296b730165e92461430e1c7e1f5101c562cfdf17567aed619522a8d4</code></td><td>2026-11-03</td></tr>
 </tbody>
 </table>

@@ -19,7 +19,7 @@
 const crypto = require('crypto');
 const fs = require('fs');
 
-const VERSION = '1.0.1';
+const VERSION = '1.0.0';
 const RULE = 'Only type your words into the Keeps app or the offline recovery tool. Never into a website.';
 
 const EXIT = { OK: 0, WRONG_WORDS: 1, USAGE: 2, NETWORK: 3, BAD_BLOB: 4, MISMATCH: 5, OUTPUT: 6 };
@@ -265,16 +265,6 @@ function readAllStdin() {
   return out;
 }
 
-// Backspace removes one whole character, not one byte (1.0.1): drop UTF-8 continuation bytes
-// (10xxxxxx) and then the byte that starts the character. Erased bytes are zeroed.
-function eraseLastChar(buf, n) {
-  if (n <= 0) return 0;
-  let i = n - 1;
-  while (i > 0 && (buf[i] & 0xc0) === 0x80) i -= 1;
-  buf.fill(0, i, n);
-  return i;
-}
-
 // Read one line of words with NO echo from the controlling terminal. Bytes only.
 function promptHidden(question) {
   return new Promise((resolve, reject) => {
@@ -309,7 +299,7 @@ function promptHidden(question) {
       for (const c of chunk) {
         if (c === 0x0d || c === 0x0a) { chunk.fill(0); done(null); return; }
         if (c === 0x03 || c === 0x04) { chunk.fill(0); done(new Fail(EXIT.USAGE, 'Cancelled.')); return; }
-        if (c === 0x7f || c === 0x08) { n = eraseLastChar(buf, n); continue; }
+        if (c === 0x7f || c === 0x08) { if (n > 0) buf[--n] = 0; continue; }
         if (c === 0x15) { buf.fill(0); n = 0; continue; }          // Ctrl-U clears the line
         // Arrow/function keys send ESC [ ... final-byte (or ESC O x): drop the whole sequence.
         if (esc === 1) { esc = (c === 0x5b || c === 0x4f) ? 2 : 0; continue; }
@@ -472,7 +462,7 @@ function readPastedBlob() {
 }
 
 module.exports = {
-  VERSION, RULE, EXIT, Fail, eraseLastChar,
+  VERSION, RULE, EXIT, Fail,
   refuseNetwork, decodeBlobText, parseBlob, passphraseCandidates, openBlob,
   publicKeyFromSeed, base58, keypairJson, writeSecretFile,
 };
