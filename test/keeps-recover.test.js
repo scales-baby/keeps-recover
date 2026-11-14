@@ -318,3 +318,34 @@ test('page check: the page passes the static check, and the check catches inputs
     assert.equal(spawnSync(process.execPath, [check, p]).status, 1);
   }
 });
+
+// ---------------------------------------------------------------- audit 2026-11 (SRV-10)
+test('SRV-10: backspace removes a whole character (é, backspace, e gives e)', () => {
+  const buf = Buffer.alloc(16);
+  let n = 0;
+  const type = (s) => { for (const b of Buffer.from(s, 'utf8')) buf[n++] = b; };
+  type('é');
+  assert.equal(n, 2);
+  n = R.eraseLastChar(buf, n);
+  type('e');
+  assert.equal(buf.subarray(0, n).toString('utf8'), 'e');
+  assert.ok(buf.subarray(n).every((b) => b === 0), 'erased bytes are zeroed');
+  for (const ch of ['a', 'é', '€', '😀']) {
+    const b = Buffer.alloc(8);
+    const bytes = Buffer.from('x' + ch, 'utf8');
+    bytes.copy(b);
+    assert.equal(R.eraseLastChar(b, bytes.length), 1, `one backspace removes ${ch}`);
+  }
+  assert.equal(R.eraseLastChar(Buffer.alloc(4), 0), 0, 'backspace on an empty line stays empty');
+});
+
+test('SRV-10: the README and the page name the real wait for Key A', () => {
+  const readme = fs.readFileSync(path.join(ROOT, 'README.md'), 'utf8');
+  const page = fs.readFileSync(path.join(ROOT, 'site', 'recover.html'), 'utf8');
+  for (const doc of [readme, page]) {
+    assert.match(doc, /about 10 days/);
+    assert.match(doc, /down for 7 days/);
+    assert.match(doc, /72 hours/);
+  }
+  assert.ok(!/No later step asks for them/.test(page), 'the page no longer says only step 1 needs the words');
+});
