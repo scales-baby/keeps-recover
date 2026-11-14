@@ -1,5 +1,7 @@
 # keeps-recover
 
+**The file in this folder is version 1.0.1. If your kit names 1.0.0, download `keeps-recover.js` from the [v1.0.0 release](https://github.com/scales-baby/keeps-recover/releases/tag/v1.0.0) instead.**
+
 **Only type your words into the Keeps app or the offline recovery tool. Never into a website.**
 
 `keeps-recover` opens the sealed copy of **Key C** printed on your Keeps recovery kit, on your own computer, with the network off. You give it the sealed copy (the text under the QR code) and your six recovery words. It gives you Key C as a Solana keypair file and prints Key C's public key so you can check it against the "Key C" line on your kit.

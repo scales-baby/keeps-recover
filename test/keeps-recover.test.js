@@ -368,3 +368,8 @@ test('SRV-10: backspace removes a whole character (é, backspace, e gives e)', (
   }
   assert.equal(R.eraseLastChar(Buffer.alloc(4), 0), 0, 'backspace on an empty line stays empty');
 });
+
+test('H-1: the README tells a 1.0.0 kit to use the v1.0.0 release, not the file in this folder', () => {
+  const readme = fs.readFileSync(path.join(ROOT, 'README.md'), 'utf8');
+  assert.match(readme, /The file in this folder is version 1\.0\.1\. If your kit names 1\.0\.0, download `keeps-recover\.js` from the \[v1\.0\.0 release\]/);
+});
