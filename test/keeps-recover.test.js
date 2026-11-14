@@ -342,3 +342,22 @@ test('SRV-10 review K-2/K-3: printed kits keep matching; the 1.0.0 row and hash 
     'the 1.0.0 row that 366 to 369 kits name is unchanged');
   assert.ok(!/not yet released/.test(page), 'no unreleased version is listed on the page');
 });
+
+test('SRV-10: backspace removes a whole character (é, backspace, e gives e)', () => {
+  const buf = Buffer.alloc(16);
+  let n = 0;
+  const type = (s) => { for (const b of Buffer.from(s, 'utf8')) buf[n++] = b; };
+  type('é');
+  assert.equal(n, 2);
+  n = R.eraseLastChar(buf, n);
+  type('e');
+  assert.equal(buf.subarray(0, n).toString('utf8'), 'e');
+  assert.ok(buf.subarray(n).every((b) => b === 0), 'erased bytes are zeroed');
+  for (const ch of ['a', 'é', '€', '😀']) {
+    const b = Buffer.alloc(8);
+    const bytes = Buffer.from('x' + ch, 'utf8');
+    bytes.copy(b);
+    assert.equal(R.eraseLastChar(b, bytes.length), 1, `one backspace removes ${ch}`);
+  }
+  assert.equal(R.eraseLastChar(Buffer.alloc(4), 0), 0, 'backspace on an empty line stays empty');
+});
