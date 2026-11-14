@@ -45,13 +45,13 @@
 <p>Your Keep is a Squads multisig: any two of its three keys can move the money. You hold two of them.</p>
 <ol>
 <li><strong>Get Key C</strong> on your own computer, offline: download <code>keeps-recover.js</code> from the GitHub release below, check its hash, turn Wi-Fi off, run it with the sealed copy from your kit, and type your six words into it. It prints Key C's address: check it matches the "Key C" line on your kit. Or use the Keeps app, if you still have it.</li>
-<li><strong>Get Key A</strong> from the Keeps app on your phone (the steps are printed on your kit).</li>
+<li><strong>Get Key A</strong> from the Keeps app on your phone (the steps are printed on your kit). If you revealed Key C in the app, Key A can be revealed 24 hours later, on purpose. If Keeps' sign-in has stopped, it takes at least 10 days from your first try. Open Reveal phone key and continue until the app says "Keeps sign-in isn't answering": that is your first try, and the 7 days count from that first try on this phone, not from when Keeps stopped. Keep the phone switched on; time with it switched off does not count. Open Keeps once a day while you wait. If the phone restarts, the time since you last opened Keeps is not counted. After 7 days, open Reveal phone key again and type your six words in the app. When you type the words, the app checks your Keep on Solana. If it cannot reach the network, it asks for an RPC address: paste an https address from any Solana RPC provider. This needs Keeps build 370 or later. The app then waits 72 hours more before it shows Key A.</li>
 <li><strong>Load the two keys</strong> into a Solana wallet, or keep them as keypair files.</li>
 <li><strong>Open a Squads tool</strong>: the Squads public UI or the Squads CLI, both from Squads' own GitHub. Enter the Multisig address from your kit.</li>
 <li><strong>Transfer from Vault 0</strong> to where you want the money: create the transfer, approve with Key A, approve with Key C, execute. Repeat per token.</li>
 <li><strong>Optional:</strong> replace Key B (Keeps' key) with a key you hold, so the Keep is fully yours.</li>
 </ol>
-<p class="muted">Your words are needed for step 1 only, typed into the offline tool on your own computer. No later step asks for them.</p>
+<p class="muted">Your words are typed only into the offline tool on your own computer (step 1), or into the Keeps app if Keeps' sign-in has stopped (step 2). No other step asks for them.</p>
 
 <h2>The offline tool and its hash</h2>
 <p>Download it only from the GitHub release: <code>github.com/scales-baby/keeps-recover/releases</code>. Before you run it, check that the file's SHA-256 matches the row for its version below, the release page, and the hash printed on your kit. Older versions stay listed and stay downloadable, so an older kit still matches its own version.</p>

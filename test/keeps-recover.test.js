@@ -318,3 +318,34 @@ test('page check: the page passes the static check, and the check catches inputs
     assert.equal(spawnSync(process.execPath, [check, p]).status, 1);
   }
 });
+
+// ---------------------------------------------------------------- audit 2026-11 (SRV-10)
+test('SRV-10: the README and the page describe the Key A wait as the 369 app runs it', () => {
+  const readme = fs.readFileSync(path.join(ROOT, 'README.md'), 'utf8');
+  const page = fs.readFileSync(path.join(ROOT, 'site', 'recover.html'), 'utf8');
+  for (const doc of [readme, page]) {
+    assert.match(doc, /it takes at least 10 days from your first try/);
+    assert.match(doc, /Open Reveal phone key and continue until the app says "Keeps sign-in isn't answering"/);
+    assert.match(doc, /Open Keeps once a day while you wait\. If the phone restarts, the time since you last opened Keeps is not counted/);
+    assert.match(doc, /it asks for an RPC address: paste an https address from any Solana RPC provider\. This needs Keeps build 370 or later/);
+    assert.match(doc, /If you revealed Key C in the app, Key A can be revealed 24 hours later/);
+    assert.ok(!/two reveals are 24 hours apart|shown 24 hours after Key C/.test(doc), 'the 24-hour gap is only for an in-app Key C');
+    assert.match(doc, /[Tt]he 7 days count from that first try on this phone, not from when Keeps stopped/);
+    assert.match(doc, /[Tt]ime with it switched off does not count/);
+    assert.match(doc, /After 7 days, open Reveal phone key again and type your six words in the app/);
+    assert.match(doc, /waits 72 hours more before it shows Key A/);
+    assert.ok(!/has been down for 7 days/.test(doc), 'the old wording (7 days from when Keeps went down) is gone');
+  }
+  assert.match(readme, /sign out of Keeps first \(Settings\)\. The reveal then needs only your phone/);
+  assert.ok(!/its reveal needs only your phone/.test(readme), 'a signed-in Ledger phone still needs Keeps sign-in');
+  assert.ok(!/needed for one thing only: step 1/.test(readme), 'README matches the page: the words can also go into the app in step 2');
+  assert.ok(!/No later step asks for them/.test(page), 'the page no longer says only step 1 needs the words');
+});
+
+test('SRV-10 review K-2/K-3: printed kits keep matching; the 1.0.0 row and hash stay', () => {
+  const H100 = '53b450e4296b730165e92461430e1c7e1f5101c562cfdf17567aed619522a8d4';
+  const page = fs.readFileSync(path.join(ROOT, 'site', 'recover.html'), 'utf8');
+  assert.ok(page.includes(`<tr data-version="1.0.0"><td>1.0.0</td><td><code>${H100}</code></td><td>2026-11-03</td></tr>`),
+    'the 1.0.0 row that 366 to 369 kits name is unchanged');
+  assert.ok(!/not yet released/.test(page), 'no unreleased version is listed on the page');
+});

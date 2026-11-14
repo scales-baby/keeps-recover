@@ -11,7 +11,7 @@ It is one file, `keeps-recover.js`, about 450 lines of JavaScript that uses only
 What it protects against:
 
 - **Phishing.** Keeps, scales.baby and no website will ever ask for your six words. A page that asks for them is an attack. Only type your words into the Keeps app or this offline tool. Never into a website. That is why there is no web version of this tool, why scales.baby/recover has no input fields, and why this tool refuses to run with network settings present.
-- **A dead company.** The kit plus your words plus this tool give you Key C with no Keeps app, no Keeps server and no Keeps company. With Key A (from the app) you hold 2 of the 3 keys of your Keep and can move the money with the public Squads tools.
+- **A dead company.** The kit plus your words plus this tool give you Key C with no Keeps app, no Keeps server and no Keeps company. With Key A (from the app) you hold 2 of the 3 keys of your Keep and can move the money with the public Squads tools. If Keeps' sign-in has stopped, getting Key A out of the app takes at least 10 days, counted from your first try in the app (see "Move your money without Keeps", step 2).
 - **A stolen kit.** The sealed copy is AES-256-GCM ciphertext under a key derived from your six words with scrypt (N=2^17, r=8, p=1, about 128 MB of memory per guess). Six words from the 7,776-word EFF list are 77.5 bits; nobody can guess them from the kit. That is also why the kit and the words must never be stored together.
 - **Leaks from the tool itself.** It has no network code: it never loads `net`, `http`, `https`, `http2`, `dns`, `tls`, `dgram`, `child_process` or `worker_threads`, never calls `fetch`, and exits with code 3 before reading anything if a proxy or RPC-like environment variable, `NODE_OPTIONS`, any Node runtime option (such as `--inspect` or `--require`) or a network-like flag is present. The tests prove both by grep and at runtime (every Node network entry point is trapped during a full recovery and none is touched). It never prints or logs the words, the seed or the secret key. It writes the keypair file with mode 600 and never overwrites an existing file.
 - **Wrong words.** A wrong word fails the GCM authentication tag and you get one generic answer: "These words do not open this sealed copy." A tampered sealed copy gives exactly the same answer. Nothing is written.
@@ -61,7 +61,15 @@ Options: `--out PATH` (default `key-c.json`), `--base58-out PATH` (the 64-byte s
 Your Keep is a Squads v4 multisig, 2 of 3: Key A (your phone), Key B (the Keeps service key), Key C (your recovery key). Any two keys can move the money. These steps match the six exit steps on your kit.
 
 1. **Key C:** this tool (above), or Keeps app > Settings > Advanced > Reveal recovery key.
-2. **Key A:** Keeps app > Settings > Advanced > Reveal phone key. The two reveals are 24 hours apart on purpose.
+2. **Key A:** Keeps app > Settings > Advanced > Reveal phone key. If you revealed Key C in the app, Key A can be revealed 24 hours later, on purpose. Revealing Key A normally needs your Keeps sign-in. **If Keeps' sign-in has stopped, it takes at least 10 days from your first try:**
+   - Open Reveal phone key and continue until the app says "Keeps sign-in isn't answering". That is your first try. The 7 days count from that first try on this phone, not from when Keeps stopped.
+   - Keep the phone switched on. Time with it switched off does not count. If Keeps' sign-in answers again, the count starts over.
+   - Open Keeps once a day while you wait. If the phone restarts, the time since you last opened Keeps is not counted.
+   - After 7 days, open Reveal phone key again and type your six words in the app.
+   - When you type the words, the app checks your Keep on Solana. If it cannot reach the network, it asks for an RPC address: paste an https address from any Solana RPC provider. This needs Keeps build 370 or later; on builds 366 to 369 the exit can stop at this check.
+   - The app then waits 72 hours more before it shows Key A. Reveal it within the 72 hours after that, or the wait lapses.
+   - Freezing your Keep cancels the wait.
+   - A Ledger or "other wallet" recovery key: sign out of Keeps first (Settings). The reveal then needs only your phone.
 3. **Load the keys.** For the Squads CLI keep them as keypair files (`key-c.json`, and Key A saved the same way). For a wallet, import each with `--base58-out` / the app's export into Phantom, Solflare or Backpack. Importing into a wallet puts the key on an online device: do it only when you are ready to move the money.
 4. **Open a Squads tool** with the Multisig address from your kit. The program is `SQDS4ep65T869zMMBKyuUq6aD6EgTu8psMjkvj52pCf`.
    - The Squads public UI: <https://github.com/Squads-Protocol/squads-v4-public-ui> (run it yourself; connect the wallet holding Key A, then the one holding Key C).
@@ -82,7 +90,7 @@ Your Keep is a Squads v4 multisig, 2 of 3: Key A (your phone), Key B (the Keeps 
 
    Then the same four commands with `--action "RemoveMember <Key B from kit>"`. Keep the threshold at 2.
 
-These later steps are online by nature (they send transactions). Do them after `keeps-recover` has finished, and only with the keypair files, never with the words. The words are needed for one thing only: step 1, offline.
+These later steps are online by nature (they send transactions). Do them after `keeps-recover` has finished, and only with the keypair files, never with the words. The words are needed for step 1, offline, or for the Keeps app in step 2 if Keeps' sign-in has stopped.
 
 ## The sealed copy format
 
